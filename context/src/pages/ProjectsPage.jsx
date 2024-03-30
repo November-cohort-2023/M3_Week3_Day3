@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ProjectCard from "../components/ProjectCard";
 import projectsData from "../projects-data.json";
+
+import { ThemeContext } from "../context/theme.context";
+
  
 function ProjectsPage() {
   const [projects, setProjects] = useState(projectsData);
+
+  const value = useContext(ThemeContext)
+
+  console.log(value)
  
   return (
     <div className="ProjectsPage">
