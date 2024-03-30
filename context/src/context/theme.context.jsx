@@ -7,22 +7,21 @@
 
 // To create context we need to import the createContext() function
 
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 const ThemeContext = createContext()
 
-let myStudent = {
-    name:"Diogo",
-    language:"Portuguese"
-}
+
 
 
 // Wrapper function that will give all my components access to my contwxt
 
 function ThemeProviderWrapper(props){
 
+    const [theme,setTheme] = useState('light')
+
     return(
-        <ThemeContext.Provider value = {myStudent}>
+    <ThemeContext.Provider value = {{theme:theme}}>
             {props.children}
         </ThemeContext.Provider>
     )
