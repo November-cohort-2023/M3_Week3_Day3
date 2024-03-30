@@ -7,8 +7,7 @@ const projectSchema = new Schema({
   description: { type: String}
 });
  
-Project = model("User", projectSchema);
+Project = model("Project", projectSchema);
 
 module.exports = Project
 
-let myVarible
