@@ -20,6 +20,20 @@ function SignupPage(props) {
   
   const handleSignupSubmit = (e) => {
     e.preventDefault()
+
+    let newUser = {
+        email:email,
+        password:password,
+        name:name
+    }
+
+    axios.post('http://localhost:5005/auth/signup',newUser)
+    .then((createdUser)=>{
+        console.log(createdUser)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
   };
  
   
