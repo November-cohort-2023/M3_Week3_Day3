@@ -30,7 +30,7 @@ function ThemeProviderWrapper(props){
         }
     }
     return(
-    <ThemeContext.Provider value = {{theme:theme,setTheme:setTheme,name:"Nadine",changeTheme:changeTheme}}>
+    <ThemeContext.Provider value = {{theme:theme,setTheme:setTheme,name:"Nadine",changeTheme:changeTheme,myName:"Omar"}}>
             {props.children}
         </ThemeContext.Provider>
     )
