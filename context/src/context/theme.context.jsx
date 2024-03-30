@@ -20,8 +20,17 @@ function ThemeProviderWrapper(props){
 
     const [theme,setTheme] = useState('light')
 
+
+    function changeTheme(){
+        if(theme === "dark"){
+            setTheme('light')
+        }
+        else{
+            setTheme("dark")
+        }
+    }
     return(
-    <ThemeContext.Provider value = {{theme:theme}}>
+    <ThemeContext.Provider value = {{theme:theme,setTheme:setTheme,name:"Nadine",changeTheme:changeTheme}}>
             {props.children}
         </ThemeContext.Provider>
     )

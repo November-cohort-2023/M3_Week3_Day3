@@ -6,20 +6,30 @@ import { ThemeContext } from "../context/theme.context";
  
 function Navbar() {
 
-  const {theme} = useContext(ThemeContext)
 
-  const whatWeGetFromContext = useContext(ThemeContext)
+  const {theme,setTheme,name,changeTheme} = useContext(ThemeContext)
 
-  console.log(whatWeGetFromContext)
 
   return (
     <nav className={"Navbar " + theme}>
       <div>
+        <button onClick={changeTheme}>CHANGE THEME</button>
+        {name}
         <NavLink to="/"> Home </NavLink>
         <NavLink to="/projects"> Projects </NavLink>
       </div>
     </nav>
   );
 }
+
+/* 
+
+Exercise: 1
+
+1. in our theme context add 1 more key value pair
+
+2. myName : "Your name"
+
+*/
  
 export default Navbar;
