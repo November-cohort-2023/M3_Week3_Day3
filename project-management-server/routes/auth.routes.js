@@ -146,3 +146,83 @@ router.get('/verify', isAuthenticated, (req, res, next) => {       // <== CREATE
 
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+/login route that both creates the token and authenticates in 1 go. Returns the token and the payload:
+
+router.post('/login', (req, res, next) => {
+    const { email, password } = req.body;
+   
+    // Check if email or password are provided as empty string 
+    if (email === '' || password === '') {
+      res.status(400).json({ message: "Provide email and password." });
+      return;
+    }
+   
+    // Check the users collection if a user with the same email exists
+    User.findOne({ email })
+      .then((foundUser) => {
+      
+        if (!foundUser) {
+          // If the user is not found, send an error response
+          res.status(401).json({ message: "User not found." })
+          return;
+        }
+   
+        // Compare the provided password with the one saved in the database
+        const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
+   
+        if (passwordCorrect) {
+          // Deconstruct the user object to omit the password
+          const { _id, email, name } = foundUser;
+          
+          // Create an object that will be set as the token payload
+          const payload = { _id, email, name };
+   
+          // Create and sign the token
+          const authToken = jwt.sign( 
+            payload,
+            process.env.TOKEN_SECRET,
+            { algorithm: 'HS256', expiresIn: "6h" }
+          );
+
+          // Authenticate the created token
+          jwt.verify(authToken, process.env.TOKEN_SECRET, (err, decoded) => {
+            if (err) {
+              res.status(401).json({ message: "Unable to authenticate the user" });
+            } else {
+              // Send the token and the payload as the response
+              res.status(200).json({ authToken: authToken, payload: decoded });
+            }
+          });
+        }
+        else {
+          res.status(401).json({ message: "Unable to authenticate the user" });
+        }
+   
+      })
+      .catch(err => {
+        res.status(500).json(err);
+        console.log(err);
+      });
+  });
+*/
