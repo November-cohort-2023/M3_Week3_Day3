@@ -48,7 +48,7 @@ function LoginPage(props) {
     e.preventDefault()
 
     let body = {email,password}
-    axios.post('http://localhost:5005/auth/login',body)
+    axios.post(`${import.meta.env.VITE_API_URL}/auth/login`,body)
     .then((response)=>{
         localStorage.setItem('authToken',response.data.authToken)
 

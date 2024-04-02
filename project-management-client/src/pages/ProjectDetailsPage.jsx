@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from "axios";
 import AddTask from "../components/AddTask";
 import TaskCard from "../components/TaskCard";
+import projectsService from "../services/projects.service";
 
 
 const API_URL = "http://localhost:5005";
@@ -13,8 +14,8 @@ function ProjectDetailsPage (props) {
   const { projectId } = useParams();
   
   const getProject = () => {
-    axios
-      .get(`${API_URL}/api/projects/${projectId}`)
+    const token = localStorage.getItem('authToken')
+      projectsService.getProject(projectId)
       .then((response) => {
       	const oneProject = response.data;
       	setProject(oneProject);
