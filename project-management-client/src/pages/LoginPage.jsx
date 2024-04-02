@@ -53,6 +53,8 @@ function LoginPage(props) {
         localStorage.setItem('authToken',response.data.authToken)
 
         authenticateUser()
+
+        navigate('/projects')
     })
     .catch(err=>{
         console.log(err)
