@@ -29,6 +29,7 @@ function SignupPage(props) {
 
     axios.post('http://localhost:5005/auth/signup',newUser)
     .then((createdUser)=>{
+        navigate('/login')
         console.log(createdUser)
     })
     .catch(err=>{

@@ -30,6 +30,9 @@ Exercise: 1
 
 2. myName : "Your name"
 
+
+3. in the projectCard component get the context using useContext and console.log() your name
+
 */
  
 export default Navbar;
