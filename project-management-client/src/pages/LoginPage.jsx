@@ -20,6 +20,16 @@ function LoginPage(props) {
   
   const handleLoginSubmit = (e) => {
     e.preventDefault()
+
+    let body = {email,password}
+    axios.post('http://localhost:5005/auth/login',body)
+    .then((response)=>{
+        console.log(response.data)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+
   };
   
   return (
