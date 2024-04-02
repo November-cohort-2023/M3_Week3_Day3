@@ -5,6 +5,14 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
  
 const API_URL = "http://localhost:5005";
+
+/* 
+localStorage:
+
+1. localStorage.setItem('myStudent','Juan')
+
+2. localStorage.getItem('myStudent')
+*/
  
  
 function LoginPage(props) {
@@ -24,6 +32,7 @@ function LoginPage(props) {
     let body = {email,password}
     axios.post('http://localhost:5005/auth/login',body)
     .then((response)=>{
+        localStorage.setItem('authToken',response.data.authToken)
         console.log(response.data)
     })
     .catch(err=>{
