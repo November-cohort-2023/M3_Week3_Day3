@@ -29,7 +29,21 @@ function LoginPage(props) {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
  
+  /* 
+    this function does the following:
+
+    1. posts the user information to the /login route
+       and recieves the token as a response
+
+    2. Saves the token in the localStorage
+
+
+    3. gets the token from localStorage and send a request to the /verify route with the token
+
+
+    4. /verify route returns the payload as a response and we setUser to the response.data
   
+  */
   const handleLoginSubmit = (e) => {
     e.preventDefault()
 
