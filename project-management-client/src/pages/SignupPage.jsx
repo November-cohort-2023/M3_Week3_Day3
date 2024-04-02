@@ -12,6 +12,7 @@ function SignupPage(props) {
   const [errorMessage, setErrorMessage] = useState(undefined);
  
   const navigate = useNavigate();
+
   
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);

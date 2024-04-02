@@ -1,8 +1,10 @@
 // src/pages/LoginPage.jsx
  
-import { useState } from "react";
+import { useState ,useContext} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../context/auth.context";
  
 const API_URL = "http://localhost:5005";
 
@@ -19,6 +21,8 @@ function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+
+  const {authenticateUser} = useContext(AuthContext)
   
   const navigate = useNavigate();
  
@@ -33,7 +37,8 @@ function LoginPage(props) {
     axios.post('http://localhost:5005/auth/login',body)
     .then((response)=>{
         localStorage.setItem('authToken',response.data.authToken)
-        console.log(response.data)
+
+        authenticateUser()
     })
     .catch(err=>{
         console.log(err)
