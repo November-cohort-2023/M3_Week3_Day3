@@ -14,6 +14,11 @@ const saltRounds = 10;
 router.post('/signup', (req, res, next) => {
     const { email, password, name } = req.body;
    
+
+    if(!(password.includes("juan"))){
+      res.status(400).json({message:"ALL OUR PASSWORDS NEED TO INCLUDE THE NAME JUAN"})
+      return
+    }
     // Check if the email or password or name is provided as an empty string 
     if (email === '' || password === '' || name === '') {
       res.status(400).json({ message: "Provide email, password and name" });
@@ -40,7 +45,7 @@ router.post('/signup', (req, res, next) => {
       .then((foundUser) => {
         // If the user with the same email already exists, send an error response
         if (foundUser) {
-          res.status(400).json({ message: "User already exists." });
+          res.status(400).json({ message: "User already exists. Please login or signup with new email" });
           return;
         }
    
@@ -79,6 +84,7 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     const { email, password } = req.body;
    
+
     // Check if email or password are provided as empty string 
     if (email === '' || password === '') {
       res.status(400).json({ message: "Provide email and password." });
@@ -91,7 +97,7 @@ router.post('/login', (req, res, next) => {
       
         if (!foundUser) {
           // If the user is not found, send an error response
-          res.status(401).json({ message: "User not found." })
+          res.status(401).json({ message: "No account associated with this email. Please sign up" })
           return;
         }
    

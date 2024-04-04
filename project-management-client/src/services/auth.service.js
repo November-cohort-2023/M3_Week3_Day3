@@ -39,6 +39,7 @@ class AuthService {
     // same as
     // return axios.post("http://localhost:5005/auth/verify");
   };
+  
 }
  
 // Create one instance object

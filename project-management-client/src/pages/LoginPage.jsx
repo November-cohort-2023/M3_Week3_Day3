@@ -58,6 +58,7 @@ function LoginPage(props) {
     })
     .catch(err=>{
         console.log(err)
+        setErrorMessage(err.response.data.message)
     })
 
   };
@@ -77,6 +78,8 @@ function LoginPage(props) {
  
         <label>Password:</label>
         <input
+          required
+          minLength={6}
           type="password"
           name="password"
           value={password}

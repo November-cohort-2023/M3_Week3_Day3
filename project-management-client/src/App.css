@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.error-message{
+
+  color:rgb(167, 4, 4);
+  background-color: rgb(158, 158, 158);
+}
