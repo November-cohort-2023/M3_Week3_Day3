@@ -22,9 +22,25 @@ const authRouter = require("./routes/auth.routes");       //  <== IMPORT
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 app.use("/auth", authRouter);     
 
+
+
 app.use('/api',require('./routes/task.routes'))
 app.use('/api',isAuthenticated,require('./routes/projects.routes'))
 
+
+// regular middleware function
+app.use((req,res,next)=>{
+    res.json("BEFORE My last middleware")
+})
+
+// Errro handling middleware function
+
+/* app.use((error,req,res,next)=>{
+    console.log("error handling middleware " + error)
+
+    next()
+})
+ */
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

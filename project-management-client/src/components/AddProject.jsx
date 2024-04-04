@@ -3,25 +3,28 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5005";
 
+import projectsService from "../services/projects.service";
 function AddProject(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [rating, setRating] = useState(1);
+  const [errorMessage,setErrorMessage] = useState(null)
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const requestBody = { title, description };
-    
-    axios
-      .post(`${API_URL}/api/projects`, requestBody)
+    const requestBody = { title, description, rating };
+
+    projectsService.createProject(requestBody)
       .then((response) => {
         // Reset the state
         setTitle("");
         setDescription("");
         props.refreshProjects();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {console.log(error)
+                        setErrorMessage(error.response.data.message)});
   };
 
 
@@ -46,6 +49,14 @@ function AddProject(props) {
           onChange={(e) => setDescription(e.target.value)}
         />
 
+        <label>Rating:</label>
+        <input
+          type="number"
+          name="rating"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+        />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit">Submit</button>
       </form>
     </div>

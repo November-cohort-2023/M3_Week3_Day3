@@ -5,6 +5,22 @@ module.exports = (app) => {
   });
 
   app.use((err, req, res, next) => {
+
+    if(err === "juanError"){
+      res.status(400).json({message:"ALL OUR PASSWORDS NEED TO INCLUDE THE NAME JUAN"})
+      return
+    }
+
+    console.log(err)
+    if (err.name === "ValidationError") {
+      res.status(400).json({ message: err.message })
+      return
+    }
+
+    if (err.code === 11000) {
+      res.status(400).json({ message: "title is already taken" })
+      return
+    }
     // whenever you call next(err), this middleware will handle the error
     // always logs the error
     console.error("ERROR", req.method, req.path, err);

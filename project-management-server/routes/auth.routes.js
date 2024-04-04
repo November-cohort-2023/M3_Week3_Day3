@@ -16,8 +16,7 @@ router.post('/signup', (req, res, next) => {
    
 
     if(!(password.includes("juan"))){
-      res.status(400).json({message:"ALL OUR PASSWORDS NEED TO INCLUDE THE NAME JUAN"})
-      return
+      next("juanError")
     }
     // Check if the email or password or name is provided as an empty string 
     if (email === '' || password === '' || name === '') {
