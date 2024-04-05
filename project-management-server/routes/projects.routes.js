@@ -15,9 +15,32 @@ router.post("/projects", (req, res, next) => {
     .catch((err) => {
         next(err)
       }
-     
-     
     )
+});
+
+
+router.get('/search', async (req, res) => {
+  try {
+    let query = {};
+
+    // Check if title query parameter is provided
+    if (req.query.title) {
+      query.title = { $regex: req.query.title, $options: 'i' };
+    }
+
+    // Check if rating query parameter is provided
+    if (req.query.rating) {
+      query.rating = { $gte: parseInt(req.query.rating) };
+    }
+
+    // Query MongoDB using Mongoose model with the constructed query
+    const projects = await Project.find(query);
+
+    res.json(projects);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 //  GET /api/projects -  Retrieves all of the projects

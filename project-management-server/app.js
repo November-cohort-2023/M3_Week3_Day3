@@ -25,12 +25,14 @@ app.use("/auth", authRouter);
 
 
 app.use('/api',require('./routes/task.routes'))
-app.use('/api',isAuthenticated,require('./routes/projects.routes'))
+app.use('/api',require('./routes/projects.routes'))
 
 
 // regular middleware function
 app.use((req,res,next)=>{
-    res.json("BEFORE My last middleware")
+    console.log("MY Regular Middleware")
+
+    next()
 })
 
 // Errro handling middleware function

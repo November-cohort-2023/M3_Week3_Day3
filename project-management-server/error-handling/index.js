@@ -11,11 +11,15 @@ module.exports = (app) => {
       return
     }
 
-    console.log(err)
-    if (err.name === "ValidationError") {
-      res.status(400).json({ message: err.message })
-      return
+    if(err.name==='ValidationError'){
+      const colonIndex = err.message.indexOf(':');
+      let trimmedMessage = err.message.substring(colonIndex + 1).trim()
+  
+  
+        res.json({error:trimmedMessage})
+        return
     }
+   
 
     if (err.code === 11000) {
       res.status(400).json({ message: "title is already taken" })
