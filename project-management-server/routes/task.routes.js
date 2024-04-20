@@ -5,6 +5,32 @@ const mongoose = require("mongoose");
 const Task = require("../models/Task.model");
 const Project = require("../models/Project.model");
 
+router.post("/tasks", async (req, res) => {
+  try {
+    const { title, description, projectId } = req.body;
+
+    // Create the task
+    const newTask = await Task.create({ title, description, project: projectId });
+
+    // Find the project and update it with the new task
+    let updatedProject = await Project.findByIdAndUpdate(projectId, {
+      $push: { tasks: newTask._id },
+    }, { new: true, runValidators:true })
+
+    // Manually trigger validation
+    const validated = await updatedProject.validate();
+
+    // Return the updated project
+    res.json(updatedProject);
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ error: error.message});
+  }
+});
+
+
+
 //  POST /api/tasks  -  Creates a new task
 router.post("/tasks", (req, res, next) => {
   const { title, description, projectId } = req.body;
@@ -13,7 +39,7 @@ router.post("/tasks", (req, res, next) => {
     .then((newTask) => {
       return Project.findByIdAndUpdate(projectId, {
         $push: { tasks: newTask._id },
-      });
+      }, {new:true,runValidators: true });
     })
     .then((response) => res.json(response))
     .catch((err) => res.json(err));

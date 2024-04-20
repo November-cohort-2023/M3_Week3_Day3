@@ -10,11 +10,39 @@ function AddProject(props) {
   const [rating, setRating] = useState(1);
   const [errorMessage,setErrorMessage] = useState(null)
 
+  const [imageUrl, setImageUrl] = useState(null)
+  const handleFileUpload = (e) => {
+    console.log("The file to be uploaded is: ", e.target.files[0]);
+ 
+    const uploadData = new FormData();
+ 
+    // imageUrl => this name has to be the same as in the model since we pass
+    // req.body to .create() method when creating a new movie in '/api/movies' POST route
+    uploadData.append("imageUrl", e.target.files[0]);
+ 
+    axios.post('http://localhost:5005/api/upload',uploadData)
+      .then(response => {
+        // console.log("response is: ", response);
+        // response carries "fileUrl" which we can use to update the state
+        //setImageUrl(response.data.fileUrl);
+         console.log(response.data.fileUrl)
+         setImageUrl(response.data.fileUrl)
+      })
+      .catch(err => console.log("Error while uploading the file: ", err));
+  };
+
+
+        <input type="file" onChange={(e)=>{handleFileUpload(e)}}/>
+
+
+
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const requestBody = { title, description, rating };
+    const requestBody = { title, description, rating, imageUrl };
 
     projectsService.createProject(requestBody)
       .then((response) => {
@@ -40,6 +68,7 @@ function AddProject(props) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <h1></h1>
 
         <label>Description:</label>
         <textarea
@@ -56,6 +85,8 @@ function AddProject(props) {
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         />
+
+        <input type="file" onChange={(e)=>{handleFileUpload(e)}} />
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit">Submit</button>
       </form>

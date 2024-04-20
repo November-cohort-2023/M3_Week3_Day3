@@ -5,12 +5,14 @@ const mongoose = require("mongoose");
 const Project = require("../models/Project.model");
 const Task = require("../models/Task.model");
 
+const fileUploader = require("../config/cloudinary.config");
+
 
 //  POST /api/projects  -  Creates a new project
 router.post("/projects", (req, res, next) => {
-  const { title, description, rating } = req.body;
+  const { title, description, rating ,imageUrl} = req.body;
 
-  Project.create({ title, description, tasks: [],rating })
+  Project.create({ title, description, tasks: [],rating,image:imageUrl})
     .then((response) => res.json(response))
     .catch((err) => {
         next(err)
@@ -18,6 +20,57 @@ router.post("/projects", (req, res, next) => {
     )
 });
 
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+  // console.log"file is: ", req.file)
+ 
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
+  
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+  
+  res.json({ fileUrl: req.file.path });
+});
+ 
+
+
+router.get('/projects', async (req, res) => {
+  try {
+    let query = {};
+
+    // Check if title query parameter is provided
+    if (req.query.title) {
+      query.title = { $regex: req.query.title, $options: 'i' };
+    }
+
+    // Check if rating query parameter is provided
+    if (req.query.rating) {
+      query.rating = { $gte: parseInt(req.query.rating) };
+    }
+
+    // Query MongoDB using Mongoose model with the constructed query
+    const projects = await Project.find(query);
+
+    res.json(projects);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+router.post('/projects/many',(req,res)=>{
+
+  Project.insertMany(req.body)
+  .then(()=>{
+    res.json('success')
+  })
+})
 
 router.get('/search', async (req, res) => {
   try {
